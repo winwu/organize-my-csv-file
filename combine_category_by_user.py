@@ -97,4 +97,4 @@ for userFolder in userFolders:
 
     print(summaryDf)
 
-    summaryDf.to_csv(sumDirPath + '/' + 'summary_'+ userFolder +'.csv', encoding='utf-8')
+    summaryDf.to_csv(sumDirPath + '/' + 'summary_'+ userFolder +'.csv', encoding='utf-8', index=False)
