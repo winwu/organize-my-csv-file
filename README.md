@@ -34,13 +34,13 @@ also make sure each csv file name are correct format: `[1-9]-[A-I]-[1-3]).csv`.
 After all files in data_source prepare well, run:
 
 ```
-python3 combine_with_loop.py -i <totalUserCnunt>
+python3 combine_with_loop.py -i <total_user_count>
 ```
 
 or
 
 ```
-./combine_with_loop.py -i <totalUserCnunt>
+./combine_with_loop.py -i <total_user_count>
 ```
 
 The script will calculate the average of three data sets from each English alphabet group(A-I) by each tester, then create summary result csv in each ./data_source/tester{N}/summary/summary_tester{N}.csv.
