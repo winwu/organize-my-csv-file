@@ -1,3 +1,4 @@
-data_source
+data_source/*
+!data_source/.gitkeep
 combine.py
 .DS_Store
