@@ -6,7 +6,6 @@ this project needs Python 3 and Pandas, have to isntall these packages:
 
 ```
 pip3 install pandas
-
 ```
 
 for Mac user:

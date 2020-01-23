@@ -32,6 +32,8 @@ colNames = [
 
 usefulFieldWeNeeds = ['Attention', 'Meditation']
 
+distPath = './dist'
+
 def main(argv):
     tmpTotalUser = 0
     try:
@@ -58,6 +60,10 @@ def initial():
     for i in range(1, totalTestUser + 1):
         userFolders.append('tester' + str(i))
 
+    # 2. create summary folder for each user
+    if not os.path.exists(distPath):
+        os.makedirs(distPath)
+
 def generateSummaryCSV():
     for userFolder in userFolders:
         # 1. create folder for each test user if not exists
@@ -65,7 +71,7 @@ def generateSummaryCSV():
             os.makedirs('./data_source' + '/' + userFolder)
 
         # 2. create summary folder for each user
-        sumDirPath = './data_source' + '/' + userFolder + '/' + 'summary'
+        sumDirPath = distPath + '/summary'
         if not os.path.exists(sumDirPath):
             os.makedirs(sumDirPath)
 
@@ -121,7 +127,7 @@ def generateSummaryCSV():
 
         print(summaryDf)
 
-        summaryDf.to_csv(sumDirPath + '/' + 'summary_' + userFolder + '.csv', encoding = 'utf-8', index = False)
+        summaryDf.to_csv(sumDirPath + '/' +  userFolder + '.csv', encoding = 'utf-8', index = False)
 
 
 
