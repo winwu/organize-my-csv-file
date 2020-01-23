@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # TODO: quantile
 
 import os

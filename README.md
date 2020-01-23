@@ -1,8 +1,8 @@
-# Analysis of experimental data results
+# The analysis of experimental data results of my lab
 
 The purpose of this project is to organize the data and convert it to the format needed to facilitate analysis.
 
-use Python 3 and Pandas, need to isntall these packages:
+this project needs Python 3 and Pandas, have to isntall these packages:
 
 ```
 pip3 install pandas
@@ -15,11 +15,38 @@ for Mac user:
 pip3 install pandas --user 
 ```
 
-## generate summary result by each user
+## Execute and generate summary result
 
-Calculate the average of three data sets for each English alphabet group, will create summary result csv in each ./data_source/tester{N}/summary/summary_tester{N}.csv
+Before generate these summary result csv, make sure put all of tester data in `data_source` folder, the folder structure will looks:
 
-run `python3 combine_with_loop.py`
+```
+./data_source
+
+├── tester1
+│   ├── 1-A-1.csv
+│   ├── 1-A-2.csv
+│   ├── 1-A-3.csv
+│   ├── 2-E-1.csv
+│   ├── ...
+```
+
+also make sure each csv file name are correct format: `[1-9]-[A-I]-[1-3]).csv`.
+
+After all files in data_source prepare well, run:
+
+```
+python3 combine_with_loop.py
+```
+
+or
+
+```
+./combine_with_loop.py
+```
+
+The script will calculate the average of three data sets from each English alphabet group(A-I) by each tester, then create summary result csv in each ./data_source/tester{N}/summary/summary_tester{N}.csv.
+
+If the csv files name are not correct or the datasets in csv are less than three row, it will return Error.
 
 
 ## generate all user's summary result into one file
