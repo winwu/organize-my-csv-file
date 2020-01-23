@@ -70,39 +70,39 @@ def generate_summary_csv():
         if not os.path.exists('./data_source' + '/' + tester_fname):
             os.makedirs('./data_source' + '/' + tester_fname)
 
-        # 2. create summary folder for each user
+        # 2. create summary folder under ./dist
         sum_path = dist_path + '/summary'
         if not os.path.exists(sum_path):
             os.makedirs(sum_path)
 
-        # 3. init summary table df
-        summary_df = pd.DataFrame(index = list(english_category_range), columns = col_names)
+        # 3. init summary table df of each user
+        tester_summary_df = pd.DataFrame(index = list(english_category_range), columns = col_names)
         
         # set all cell value to 0 as default
-        # summary_df.fillna(0, inplace = True)
+        # tester_summary_df.fillna(0, inplace = True)
 
         print('---------- Processing folder: {} ----------'.format(tester_fname))
 
-        # 3. categories file names according to English alphabet (A-I)
-        for upper_case in english_category_range:
-            csv_folder = './data_source' + '/' + tester_fname
-
+        # 4. categories file names according to English alphabet (A~I)
+        for alphabet in english_category_range:
+            
+            tester_folder = './data_source' + '/' + tester_fname
             each_eng_category_list = []
             
-            for name in os.listdir(csv_folder):
+            for name in os.listdir(tester_folder):
                 # search pattern like: 1-A-1.csv ~ 1-A-3.csv
-                if re.match("(^[1-9]-[" + re.escape(upper_case) + "]-[1-3]).csv", name):
+                if re.match("(^[1-9]-[" + re.escape(alphabet) + "]-[1-3]).csv", name):
                     each_eng_category_list.append(name)
 
             # update file sequance from 1 -> 2 -> 3
             each_eng_category_list = sorted(each_eng_category_list)
 
-            print('Category {} List: {}'.format(upper_case, each_eng_category_list))
+            print('Category {} List: {}'.format(alphabet, each_eng_category_list))
 
             # all groups must have three files to be continue...
-            all_csv_ready = len(each_eng_category_list) == 3
+            is_all_csv_ready = len(each_eng_category_list) == 3
 
-            if all_csv_ready:
+            if is_all_csv_ready:
                 print('can start to generate summary csv for this category')
                 tmpPdList = list()
 
@@ -119,16 +119,16 @@ def generate_summary_csv():
                 # group 3 df's value by 0, 1, 2 and calculate the average for each seconds average
                 # length mush be 3 with each average lists
 
-                summary_df.at[upper_case, 'Att_0s_avg'] = round(result_df.at[0, 'Attention'].mean(), 3) if len(result_df.at[2, 'Attention']) == 3 else 'Error'
-                summary_df.at[upper_case, 'Att_1s_avg'] = round(result_df.at[1, 'Attention'].mean(), 3) if len(result_df.at[1, 'Attention']) == 3 else 'Error'
-                summary_df.at[upper_case, 'Att_2s_avg'] = round(result_df.at[2, 'Attention'].mean(), 3) if len(result_df.at[2, 'Attention']) == 3 else 'Error'
-                summary_df.at[upper_case, 'Med_0s_avg'] = round(result_df.at[0, 'Meditation'].mean(), 3) if len(result_df.at[0, 'Meditation']) == 3 else 'Error'
-                summary_df.at[upper_case, 'Med_1s_avg'] = round(result_df.at[1, 'Meditation'].mean(), 3) if len(result_df.at[1, 'Meditation']) == 3 else 'Error'
-                summary_df.at[upper_case, 'Med_2s_avg'] = round(result_df.at[2, 'Meditation'].mean(), 3) if len(result_df.at[2, 'Meditation']) == 3 else 'Error'
+                tester_summary_df.at[alphabet, 'Att_0s_avg'] = round(result_df.at[0, 'Attention'].mean(), 3) if len(result_df.at[2, 'Attention']) == 3 else 'Error'
+                tester_summary_df.at[alphabet, 'Att_1s_avg'] = round(result_df.at[1, 'Attention'].mean(), 3) if len(result_df.at[1, 'Attention']) == 3 else 'Error'
+                tester_summary_df.at[alphabet, 'Att_2s_avg'] = round(result_df.at[2, 'Attention'].mean(), 3) if len(result_df.at[2, 'Attention']) == 3 else 'Error'
+                tester_summary_df.at[alphabet, 'Med_0s_avg'] = round(result_df.at[0, 'Meditation'].mean(), 3) if len(result_df.at[0, 'Meditation']) == 3 else 'Error'
+                tester_summary_df.at[alphabet, 'Med_1s_avg'] = round(result_df.at[1, 'Meditation'].mean(), 3) if len(result_df.at[1, 'Meditation']) == 3 else 'Error'
+                tester_summary_df.at[alphabet, 'Med_2s_avg'] = round(result_df.at[2, 'Meditation'].mean(), 3) if len(result_df.at[2, 'Meditation']) == 3 else 'Error'
 
-        print(summary_df)
+        print(tester_summary_df)
 
-        summary_df.to_csv(sum_path + '/' +  tester_fname + '.csv', encoding = 'utf-8', index = False)
+        tester_summary_df.to_csv(sum_path + '/' +  tester_fname + '.csv', encoding = 'utf-8', index = False)
 
 
 
