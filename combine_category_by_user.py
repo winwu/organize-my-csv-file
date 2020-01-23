@@ -16,7 +16,7 @@ userFolders = list()
 englistCategoryRange = string.ascii_uppercase[:9]
 
 # total number of testers
-totalTestUser = 2
+totalTestUser = 21
 
 
 # define new columns which we need
@@ -60,7 +60,8 @@ for userFolder in userFolders:
 
         categoryList = []
         for name in os.listdir(csvFolder):
-            if re.match("(^[1-9]-[" + re.escape(upperCase) + "]-[1-9])", name):
+            # search pattern like: 1-A-1.csv ~ 1-A-3.csv
+            if re.match("(^[1-9]-[" + re.escape(upperCase) + "]-[1-3]).csv", name):
                 categoryList.append(name)
 
         # update file sequance from 1 -> 2 -> 3
