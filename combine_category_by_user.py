@@ -60,13 +60,13 @@ def initial():
     for i in range(1, total_test_user + 1):
         user_folders.append('tester' + str(i))
 
-    # step3. create tester summary folder under ./dist
-    if not os.path.exists(dist_path + '/summary'):
-        os.makedirs(dist_path + '/summary')
+    # step3. create by_tester folder under ./dist
+    if not os.path.exists(dist_path + '/by_tester'):
+        os.makedirs(dist_path + '/by_tester')
     
-    # step4. create alphabet summary folder under ./dist
-    if not os.path.exists(dist_path + '/summary_by_alphabet'):
-        os.makedirs(dist_path + '/summary_by_alphabet')
+    # step4. create by_alphabet folder under ./dist
+    if not os.path.exists(dist_path + '/by_alphabet'):
+        os.makedirs(dist_path + '/by_alphabet')
 
 def generate_summary_by_user():
     for tester_fname in user_folders:
@@ -127,18 +127,10 @@ def generate_summary_by_user():
 
         print(tester_summary_df)
 
-        tester_summary_df.to_csv(dist_path + '/summary' + '/' +  tester_fname + '.csv', encoding = 'utf-8', index = True)
+        tester_summary_df.to_csv(dist_path + '/by_tester' + '/' +  tester_fname + '.csv', encoding = 'utf-8', index = True)
 
 def generate_summary_by_alphabet():
     print('------ generate_summary_by_alphabet ------')
-
-    # for alphabet in english_category_range:
-    #     alphabet_df = pd.DataFrame(index = list(range(1, total_test_user + 1)), columns = col_names)
-    #     alphabet_df.index.name = 'tester'
-        # alphabet_df.fillna(0)
-        #alphabet_df.to_csv(dist_path + '/summary_by_alphabet' + '/category_' +  alphabet + '.csv', encoding = 'utf-8', index = True)
-        
-        
     for alphabet in english_category_range:
         alphabet_df = pd.DataFrame(index = list(range(1, total_test_user + 1)), columns = col_names)
         alphabet_df.index.name = 'tester'
@@ -146,16 +138,14 @@ def generate_summary_by_alphabet():
         
         print('------------------------- alphabet: {} -----------------------------'.format(alphabet))
 
-        
         for i in range(1, total_test_user + 1):
             print(i)
             # read file summary/tester1~total_test_user.csv
-            user_summary_df = pd.read_csv('./dist/summary/tester' + str(i) + '.csv')
-            # print('./dist/summary/tester' + str(i) + '.csv')
+            user_summary_df = pd.read_csv(dist_path + '/by_tester/tester' + str(i) + '.csv')
+            
             # pick sepecific row by alphabet
             row_data = user_summary_df.query('category == \'' + alphabet + '\'')
             
-            #tester_index = alphabet_df.index[alphabet_df['tester'] == i]
             alphabet_df.at[i, 'Att_0s_avg'] = row_data.Att_0s_avg
             alphabet_df.at[i, 'Att_1s_avg'] = row_data.Att_1s_avg
             alphabet_df.at[i, 'Att_2s_avg'] = row_data.Att_2s_avg
@@ -164,9 +154,7 @@ def generate_summary_by_alphabet():
             alphabet_df.at[i, 'Med_2s_avg'] = row_data.Med_2s_avg
         
         print(alphabet_df)
-        alphabet_df.to_csv(dist_path + '/summary_by_alphabet' + '/category_' +  alphabet + '.csv', encoding = 'utf-8', index = True)
-
-    
+        alphabet_df.to_csv(dist_path + '/by_alphabet' + '/category_' +  alphabet + '.csv', encoding = 'utf-8', index = True)
 
 if __name__ == "__main__":
    total_test_user = int(main(sys.argv[1:]))
