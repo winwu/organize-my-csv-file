@@ -78,7 +78,7 @@ def generate_summary_by_user():
         tester_summary_df = pd.DataFrame(index = list(english_category_range), columns = col_names)
         tester_summary_df.index.name = 'category'
         # set all cell value to 0 as default
-        tester_summary_df.fillna(-1, inplace = True)
+        tester_summary_df.fillna(-999, inplace = True)
 
         print('---------- Processing folder: {} ----------'.format(tester_fname))
 
@@ -118,12 +118,12 @@ def generate_summary_by_user():
                 # group 3 df's value by 0, 1, 2 and calculate the average for each seconds average
                 # length mush be 3 with each average lists
 
-                tester_summary_df.at[alphabet, 'Att_0s_avg'] = round(result_df.at[0, 'Attention'].mean(), 3) if len(result_df.at[2, 'Attention']) == 3 else -1
-                tester_summary_df.at[alphabet, 'Att_1s_avg'] = round(result_df.at[1, 'Attention'].mean(), 3) if len(result_df.at[1, 'Attention']) == 3 else -1
-                tester_summary_df.at[alphabet, 'Att_2s_avg'] = round(result_df.at[2, 'Attention'].mean(), 3) if len(result_df.at[2, 'Attention']) == 3 else -1
-                tester_summary_df.at[alphabet, 'Med_0s_avg'] = round(result_df.at[0, 'Meditation'].mean(), 3) if len(result_df.at[0, 'Meditation']) == 3 else -1
-                tester_summary_df.at[alphabet, 'Med_1s_avg'] = round(result_df.at[1, 'Meditation'].mean(), 3) if len(result_df.at[1, 'Meditation']) == 3 else -1
-                tester_summary_df.at[alphabet, 'Med_2s_avg'] = round(result_df.at[2, 'Meditation'].mean(), 3) if len(result_df.at[2, 'Meditation']) == 3 else -1
+                tester_summary_df.at[alphabet, 'Att_0s_avg'] = round(result_df.at[0, 'Attention'].mean(), 3) if len(result_df.at[2, 'Attention']) == 3 else -999
+                tester_summary_df.at[alphabet, 'Att_1s_avg'] = round(result_df.at[1, 'Attention'].mean(), 3) if len(result_df.at[1, 'Attention']) == 3 else -999
+                tester_summary_df.at[alphabet, 'Att_2s_avg'] = round(result_df.at[2, 'Attention'].mean(), 3) if len(result_df.at[2, 'Attention']) == 3 else -999
+                tester_summary_df.at[alphabet, 'Med_0s_avg'] = round(result_df.at[0, 'Meditation'].mean(), 3) if len(result_df.at[0, 'Meditation']) == 3 else -999
+                tester_summary_df.at[alphabet, 'Med_1s_avg'] = round(result_df.at[1, 'Meditation'].mean(), 3) if len(result_df.at[1, 'Meditation']) == 3 else -999
+                tester_summary_df.at[alphabet, 'Med_2s_avg'] = round(result_df.at[2, 'Meditation'].mean(), 3) if len(result_df.at[2, 'Meditation']) == 3 else -999
 
         print(tester_summary_df)
 
@@ -146,7 +146,7 @@ def generate_summary_by_alphabet():
             # pick sepecific row by alphabet
             row_data = user_summary_df.query('category == \'' + alphabet + '\'')
             
-            if ((row_data.Att_0s_avg != -1).bool() and (row_data.Att_1s_avg != -1).bool() and (row_data.Att_2s_avg != -1).bool() and (row_data.Med_0s_avg != -1).bool() and (row_data.Med_1s_avg != -1).bool() and (row_data.Med_2s_avg != -1).bool()):
+            if ((row_data.Att_0s_avg != -999).bool() and (row_data.Att_1s_avg != -999).bool() and (row_data.Att_2s_avg != -999).bool() and (row_data.Med_0s_avg != -999).bool() and (row_data.Med_1s_avg != -999).bool() and (row_data.Med_2s_avg != -999).bool()):
                 alphabet_df.at[i, 'Att_0s_avg'] = row_data.Att_0s_avg
                 alphabet_df.at[i, 'Att_1s_avg'] = row_data.Att_1s_avg
                 alphabet_df.at[i, 'Att_2s_avg'] = row_data.Att_2s_avg
@@ -159,6 +159,11 @@ def generate_summary_by_alphabet():
         
         # drop no-used row
         alphabet_df.drop(alphabet_df.loc[alphabet_df['Att_0s_avg'] == -2].index, inplace = True)
+        alphabet_df.drop(alphabet_df.loc[alphabet_df['Att_1s_avg'] == -2].index, inplace = True)
+        alphabet_df.drop(alphabet_df.loc[alphabet_df['Att_2s_avg'] == -2].index, inplace = True)
+        alphabet_df.drop(alphabet_df.loc[alphabet_df['Med_0s_avg'] == -2].index, inplace = True)
+        alphabet_df.drop(alphabet_df.loc[alphabet_df['Med_1s_avg'] == -2].index, inplace = True)
+        alphabet_df.drop(alphabet_df.loc[alphabet_df['Med_2s_avg'] == -2].index, inplace = True)
         
         alphabet_df.to_csv(dist_path + '/by_alphabet' + '/category_' +  alphabet + '.csv', encoding = 'utf-8', index = True)
 
