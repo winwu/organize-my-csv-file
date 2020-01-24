@@ -84,3 +84,8 @@ user2
 ...
 ```
 
+
+
+# online resources
+
+* https://nbviewer.jupyter.org/github/pybokeh/jupyter_notebooks/blob/master/plotly/plotly_with_pandas.html
