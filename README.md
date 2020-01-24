@@ -2,16 +2,19 @@
 
 The purpose of this project is to organize the data and convert it to the format needed to facilitate analysis.
 
-this project needs Python 3 and Pandas, have to isntall these packages:
+This project needs Python 3, Pandas,plotly, have to isntall these packages:
 
 ```
 pip3 install pandas
+pip3 install plotly==4.5.0
 ```
 
 for Mac user:
 
 ```
-pip3 install pandas --user 
+python3 -m pip uninstall pip
+pip3 install pandas --user
+pip3 install plotly==4.5.0 --user
 ```
 
 ## Execute and generate summary result
@@ -34,13 +37,13 @@ also make sure each csv file name are correct format: `[1-9]-[A-I]-[1-3]).csv`.
 After all files in data_source prepare well, run:
 
 ```
-python3 combine_with_loop.py -i <total_user_count>
+python3 get_summary.py -i <total_user_count>
 ```
 
 or
 
 ```
-./combine_with_loop.py -i <total_user_count>
+./get_summary.py -i <total_user_count>
 ```
 
 The script will calculate the average of three data sets from each English alphabet group(A-I) by each tester, then create summary result csv in each ./data_source/tester{N}/summary/summary_tester{N}.csv.
