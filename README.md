@@ -2,7 +2,7 @@
 
 The purpose of this project is to organize the data and convert it to the format needed to facilitate analysis.
 
-This project needs Python 3, Pandas,plotly, have to isntall these packages:
+This project needs Python 3, Pandas, plotly, have to isntall these packages:
 
 ```
 pip3 install pandas
