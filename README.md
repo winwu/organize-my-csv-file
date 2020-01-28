@@ -7,6 +7,8 @@ This project needs Python 3, Pandas,plotly, have to isntall these packages:
 ```
 pip3 install pandas
 pip3 install plotly==4.5.0
+npm install -g electron@1.8.4 orca
+pip3 install psutil requests
 ```
 
 for Mac user:
@@ -15,6 +17,8 @@ for Mac user:
 python3 -m pip uninstall pip
 pip3 install pandas --user
 pip3 install plotly==4.5.0 --user
+npm install -g electron@1.8.4 orca
+pip3 install psutil requests
 ```
 
 ## Execute and generate summary result
@@ -66,25 +70,17 @@ I         11         92         84         50         61          2
 If the csv files name are not correct or the datasets in csv are less than three row, it will return Error.
 
 
-## generate all user's summary result into one file
-
-Sort out the data of each english letter group corresponding to all testers, expected result: 
-
-
-(N means A-I)
+## generate all average result by category
 
 ```
-
-summary_{N}.csv
-
-        Att_0s_avg,Att_1s_avg,Att_2s_avg,Med_0s_avg,Med_1s_avg,Med_2s_avg
-user1
-user2
-user2
-...
+python3 chart.py -i <total_user_count>
 ```
 
+or
 
+```
+./chart.py -i <total_user_count>
+```
 
 # online resources
 

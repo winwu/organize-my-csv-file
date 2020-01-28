@@ -4,10 +4,11 @@
 
 import os
 import sys
-import getopt
 import string
 import re
 import pandas as pd
+
+from helpers import get_total_user_val 
 
 # all variables
 
@@ -33,23 +34,6 @@ col_names = [
 useful_field_we_needs = ['Attention', 'Meditation']
 
 dist_path = './dist'
-
-def main(argv):
-    tmp_user_count = 0
-    try:
-        opts, args = getopt.getopt(argv, "hi:o:", ["itotal_user_count="])
-    except getopt.GetoptError:
-        print ('combine_category_by_user.py -i <total_user_count>')
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == '-h':
-            print ('combine_category_by_user.py -i <total_user_count>')
-            sys.exit()
-        elif opt in ("-i", "--itotal_user_count"):
-            tmp_user_count = arg
-            
-    print('total user is: {}'.format(tmp_user_count))
-    return tmp_user_count
 
 def initial():
     # step1: make sure data_source exists
@@ -168,7 +152,7 @@ def generate_summary_by_alphabet():
         alphabet_df.to_csv(dist_path + '/by_alphabet' + '/category_' +  alphabet + '.csv', encoding = 'utf-8', index = True)
 
 if __name__ == "__main__":
-   total_test_user = int(main(sys.argv[1:]))
+   total_test_user = int(get_total_user_val(sys.argv[1:]))
    initial()
    generate_summary_by_user()
    generate_summary_by_alphabet()
