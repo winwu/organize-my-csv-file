@@ -1,4 +1,5 @@
 import getopt
+import re
 
 def get_total_user_val(argv):
     tmp_user_count = 0
@@ -16,3 +17,10 @@ def get_total_user_val(argv):
             
     print('total user is: {}'.format(tmp_user_count))
     return tmp_user_count
+
+
+def is_validate_csv_filename(alphabet, fname):
+    # search pattern like: 1-A-1.csv ~ 1-A-3.csv
+    if re.match("(^[1-9]-[" + re.escape(alphabet) + "]-[1-3]).csv", fname):
+        return True
+    return False

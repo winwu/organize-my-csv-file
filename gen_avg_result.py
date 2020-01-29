@@ -49,13 +49,13 @@ def gen_all_avg_chart_by_category_of_each_user():
         
         # print(df)
 
-        a_0_avg = df.Att_0s_avg.mean()
-        a_1_avg = df.Att_1s_avg.mean()
-        a_2_avg = df.Att_2s_avg.mean()
+        a_0_avg = df.Attention_0s_avg.mean()
+        a_1_avg = df.Attention_1s_avg.mean()
+        a_2_avg = df.Attention_2s_avg.mean()
 
-        m_0_avg = df.Med_0s_avg.mean()
-        m_1_avg = df.Med_1s_avg.mean()
-        m_2_avg = df.Med_2s_avg.mean()
+        m_0_avg = df.Meditation_0s_avg.mean()
+        m_1_avg = df.Meditation_1s_avg.mean()
+        m_2_avg = df.Meditation_2s_avg.mean()
 
         # table = ff.create_table(df)
         # iplot(table, filename='jupyter-table1')
