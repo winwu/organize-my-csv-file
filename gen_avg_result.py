@@ -114,14 +114,19 @@ def gen_all_user_of_3_times_avg_csv():
     print('att_df_for_csv_list')
     att_avg_df = pd.concat(att_df_for_csv_list)
     att_avg_df.index.name = 'category'
-    att_avg_df.to_csv('./dist/images/all_times_avg/attention/all.csv', encoding = 'utf-8', index = True)
+    att_avg_df.to_csv('./dist/by_alphabet/all_times_avg_attention.csv', encoding = 'utf-8', index = True)
+    # orient:
+    # index => object's key name by category
+    # columns => object's key name by 0s, 1s, 2s
+    att_avg_df.to_json(os.path.join(dirname, 'dist/by_alphabet/all_user_3_times_attention_avg.json'), orient = 'index')
     print(tabulate(att_avg_df, headers = 'keys', tablefmt = 'psql'))
     
     
     print('med_df_for_csv_list')
     med_avg_df = pd.concat(med_df_for_csv_list)
     med_avg_df.index.name = 'category'
-    med_avg_df.to_csv('./dist/images/all_times_avg/meditation/all.csv', encoding = 'utf-8', index = True)
+    med_avg_df.to_csv('./dist/by_alphabet/all_times_avg_meditation.csv', encoding = 'utf-8', index = True)
+    med_avg_df.to_json(os.path.join(dirname, 'dist/by_alphabet/all_user_3_times_meditation_avg.json'), orient = 'index')
     print(tabulate(med_avg_df, headers = 'keys', tablefmt = 'psql'))
 
 
