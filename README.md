@@ -73,13 +73,13 @@ If the csv files name are not correct or the datasets in csv are less than three
 ## generate all average result by category
 
 ```
-python3 chart.py -i <total_user_count>
+python3 gen_avg_result.py -i <total_user_count>
 ```
 
 or
 
 ```
-./chart.py -i <total_user_count>
+./gen_avg_result.py -i <total_user_count>
 ```
 
 # online resources

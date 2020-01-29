@@ -10,8 +10,8 @@ import plotly.express as px
 import plotly.figure_factory as ff
 import pandas as pd
 
-from helpers import get_total_user_val
-from log_colors import log_colors
+from helpers.helpers import get_total_user_val
+from helpers.log_colors import log_colors
 
 # total number of testers, default 0
 # total_test_user = 0
