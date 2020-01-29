@@ -7,6 +7,7 @@ This project needs Python 3, Pandas, plotly, have to isntall these packages:
 ```
 pip3 install pandas
 pip3 install plotly==4.5.0
+pip3 install tabulate
 npm install -g electron@1.8.4 orca
 pip3 install psutil requests
 ```
@@ -17,6 +18,7 @@ for Mac user:
 python3 -m pip uninstall pip
 pip3 install pandas --user
 pip3 install plotly==4.5.0 --user
+pip3 install tabulate --user
 npm install -g electron@1.8.4 orca
 pip3 install psutil requests
 ```
