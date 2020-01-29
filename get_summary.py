@@ -2,18 +2,17 @@
 
 import os
 import sys
-import string
 import re
+import pathlib
 from tabulate import tabulate
 import pandas as pd
 
 from helpers.helpers import get_total_user_val 
 from helpers.log_colors import log_colors
+from helpers.gconfig import gconfig
 
 # all variables
-
-# categories are named by English alphabet from A to I
-english_category_range = string.ascii_uppercase[:9]
+dirname = os.path.dirname(__file__)
 
 # total number of testers, default 0
 total_test_user = 0
@@ -30,40 +29,36 @@ col_names = [
 
 useful_field_we_needs = ['Attention', 'Meditation']
 
-dist_path = './dist'
-
 def initial():
-    # step1: make sure data_source exists
-    if not os.path.exists('./data_source'):
-        os.makedirs('./data_source')
+    # create folder if not exists
+    if not os.path.exists(os.path.join(dirname, 'data_source')):
+        os.makedirs(os.path.join(dirname, 'data_source'))
+
+    if not os.path.exists(os.path.join(dirname, 'dist/by_tester')):
+        pathlib.Path(os.path.join(dirname, 'dist/by_tester')).mkdir(parents = True, exist_ok = True) 
     
-    # step2. create by_tester folder under ./dist
-    if not os.path.exists(dist_path + '/by_tester'):
-        os.makedirs(dist_path + '/by_tester')
-    
-    # step3. create by_alphabet folder under ./dist
-    if not os.path.exists(dist_path + '/by_alphabet'):
-        os.makedirs(dist_path + '/by_alphabet')
+    if not os.path.exists(os.path.join(dirname, 'dist/by_alphabet')):
+        pathlib.Path(os.path.join(dirname, 'dist/by_alphabet')).mkdir(parents = True, exist_ok = True) 
 
 # TODO check if file name valid
 
 def generate_summary_by_user():
     for user_id in range(1, total_test_user + 1):
         # search for all tester{N} folder in data_source
-        user_path = './data_source/tester' + str(user_id)
+        user_path = os.path.join(dirname, 'data_source/tester' + str(user_id))
         
         if not os.path.exists(user_path):
             print('{}[Warning] Tester: {}\'s data source not exists.{}'.format(log_colors.WARNING, user_id, log_colors.ENDC))
         else: 
             # 2. init summary table df of each user
-            user_sum_df = pd.DataFrame(index = list(english_category_range), columns = col_names)
+            user_sum_df = pd.DataFrame(index = list(gconfig.english_category_range), columns = col_names)
             user_sum_df.index.name = 'category'
             # set all cell value to -999 as default
             user_sum_df.fillna(-999, inplace = True)
             print('{}[Processing] folder: {}{}'.format(log_colors.BLUE, user_id, log_colors.ENDC))
         
             # 3. categories file names according to English alphabet (A~I)
-            for alphabet in english_category_range:
+            for alphabet in gconfig.english_category_range:
                 
                 each_eng_category_list = []
                 
@@ -106,13 +101,13 @@ def generate_summary_by_user():
 
             print(tabulate(user_sum_df, headers='keys', tablefmt='psql'))
 
-            user_sum_df.to_csv(dist_path + '/by_tester/tester' + str(user_id) + '.csv', encoding = 'utf-8', index = True)
+            user_sum_df.to_csv(os.path.join(dirname, 'dist/by_tester/tester' + str(user_id) + '.csv'), encoding = 'utf-8', index = True)
 
 def generate_summary_by_alphabet():
     print('------ generate_summary_by_alphabet ------')
     missing_tester_list = list()
     
-    for alphabet in english_category_range:
+    for alphabet in gconfig.english_category_range:
         alphabet_df = pd.DataFrame(index = list(range(1, total_test_user + 1)), columns = col_names)
         alphabet_df.index.name = 'tester'
         alphabet_df.fillna(-2, inplace = True)
@@ -121,10 +116,10 @@ def generate_summary_by_alphabet():
 
         for i in range(1, total_test_user + 1):
             # read file summary/tester1~total_test_user.csv
-            tester_sum_csv_path = dist_path + '/by_tester/tester' + str(i) + '.csv'
+            tester_sum_csv_path = os.path.join(dirname, 'dist/by_tester/tester' + str(i) + '.csv')
             
             if os.path.exists(tester_sum_csv_path):
-                user_summary_df = pd.read_csv(dist_path + '/by_tester/tester' + str(i) + '.csv')
+                user_summary_df = pd.read_csv(os.path.join(dirname, 'dist/by_tester/tester' + str(i) + '.csv'))
                 # pick sepecific row by alphabet
                 row_data = user_summary_df.query('category == \'' + alphabet + '\'')
                 
@@ -139,9 +134,9 @@ def generate_summary_by_alphabet():
                 if tester_sum_csv_path not in missing_tester_list:
                     missing_tester_list.append(tester_sum_csv_path)
             
-    
-        
-        # drop no-used row
+        # print('before droped')
+        # print(tabulate(alphabet_df, headers = 'keys', tablefmt = 'psql'))
+        # drop no-used row, such as some tester data_source are not exists or not well formated
         alphabet_df.drop(alphabet_df.loc[alphabet_df['Att_0s_avg'] == -2].index, inplace = True)
         alphabet_df.drop(alphabet_df.loc[alphabet_df['Att_1s_avg'] == -2].index, inplace = True)
         alphabet_df.drop(alphabet_df.loc[alphabet_df['Att_2s_avg'] == -2].index, inplace = True)
@@ -150,10 +145,10 @@ def generate_summary_by_alphabet():
         alphabet_df.drop(alphabet_df.loc[alphabet_df['Med_2s_avg'] == -2].index, inplace = True)
         
         print('category_' +  alphabet + '.csv')
-        print(tabulate(alphabet_df, headers='keys', tablefmt='psql'))
+        print(tabulate(alphabet_df, headers = 'keys', tablefmt = 'psql'))
         
-        alphabet_df.to_csv(dist_path + '/by_alphabet' + '/category_' +  alphabet + '.csv', encoding = 'utf-8', index = True)
-
+        alphabet_df.to_csv(os.path.join(dirname, 'dist/by_alphabet/category_' + alphabet + '.csv'), encoding = 'utf-8', index = True)
+        
     if len(missing_tester_list) > 0:
         print('{}[Warning] {} Skiped due to data_source not exists or format not correct.{}'
             .format(log_colors.WARNING, ',\n'.join(missing_tester_list), log_colors.ENDC))

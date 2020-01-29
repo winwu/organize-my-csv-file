@@ -2,7 +2,8 @@
 
 import os
 import sys
-import string
+import pathlib
+from tabulate import tabulate
 
 from plotly.offline import iplot
 import plotly.graph_objects as go
@@ -12,36 +13,36 @@ import pandas as pd
 
 from helpers.helpers import get_total_user_val
 from helpers.log_colors import log_colors
+from helpers.gconfig import gconfig
+
+dirname = os.path.dirname(__file__)
 
 # total number of testers, default 0
 # total_test_user = 0
-
-# categories are named by English alphabet from A to I
-english_category_range = string.ascii_uppercase[:9]
 
 att_df_for_csv_list = list()
 med_df_for_csv_list = list()
 
 def initial():
-    if not os.path.exists('./dist/images'):
-        os.mkdir('./dist/images')
+    if not os.path.exists(os.path.join(dirname, 'dist/images')):
+        pathlib.Path(os.path.join(dirname, 'dist/images')).mkdir(parents = True, exist_ok = True)
 
-    if not os.path.exists('./dist/images/all_times_avg'):
-        os.mkdir('./dist/images/all_times_avg')
-
-    if not os.path.exists('./dist/images/all_times_avg/attention'):
-        os.mkdir('./dist/images/all_times_avg/attention')
+    if not os.path.exists(os.path.join(dirname, 'dist/images/all_times_avg')):
+        pathlib.Path(os.path.join(dirname, 'dist/images/all_times_avg')).mkdir(parents = True, exist_ok = True)
     
-    if not os.path.exists('./dist/images/all_times_avg/meditation'):
-        os.mkdir('./dist/images/all_times_avg/meditation')
+    if not os.path.exists(os.path.join(dirname, 'dist/images/all_times_avg/attention')):
+        pathlib.Path(os.path.join(dirname, 'dist/images/all_times_avg/attention')).mkdir(parents = True, exist_ok = True)
+    
+    if not os.path.exists(os.path.join(dirname, 'dist/images/all_times_avg/meditation')):
+        pathlib.Path(os.path.join(dirname, 'dist/images/all_times_avg/meditation')).mkdir(parents = True, exist_ok = True)
 
 def gen_all_avg_chart_by_category_of_each_user():
-    for alphabet in english_category_range:
+    for alphabet in gconfig.english_category_range:
 
         the_csv = './dist/by_alphabet/category_' + alphabet + '.csv'
         
         if not os.path.exists(the_csv):
-            print('{}[Warning] {} not exists'.format(log_colors.WARNING, the_csv, log_colors.ENDC))
+            print('{}[Warning] {} not exists{}'.format(log_colors.WARNING, the_csv, log_colors.ENDC))
             return
 
         df = pd.read_csv(the_csv)
@@ -77,12 +78,11 @@ def gen_all_avg_chart_by_category_of_each_user():
         med_df_for_csv.loc[alphabet] = [m_0_avg, m_1_avg, m_2_avg]
         med_df_for_csv_list.append(med_df_for_csv)
         
-
         # attention
         print(
             '--------',
             'category: {} : the attention average of 3 times data of all users'.format(alphabet),
-            att_df,
+            tabulate(att_df, headers = 'keys', tablefmt = 'psql'),
             sep="\n")
         fig = px.line(att_df, x = 'seconds', y = 'attention_average', title = 'Average Result of all test of type: ' + alphabet)
         fig.update_layout(
@@ -97,7 +97,7 @@ def gen_all_avg_chart_by_category_of_each_user():
         print(
             '--------',
             'category: {} : the meditation average of 3 times data of all users'.format(alphabet),
-            med_df,
+            tabulate(med_df, headers = 'keys', tablefmt = 'psql'),
             sep="\n")
         fig2 = px.line(med_df, x = 'seconds', y = 'meditation_average', title = 'Average Result of all test of type: ' + alphabet)
         fig2.update_layout(
@@ -115,14 +115,14 @@ def gen_all_user_of_3_times_avg_csv():
     att_avg_df = pd.concat(att_df_for_csv_list)
     att_avg_df.index.name = 'category'
     att_avg_df.to_csv('./dist/images/all_times_avg/attention/all.csv', encoding = 'utf-8', index = True)
-    print(att_avg_df)
+    print(tabulate(att_avg_df, headers = 'keys', tablefmt = 'psql'))
     
     
     print('med_df_for_csv_list')
     med_avg_df = pd.concat(med_df_for_csv_list)
     med_avg_df.index.name = 'category'
     med_avg_df.to_csv('./dist/images/all_times_avg/meditation/all.csv', encoding = 'utf-8', index = True)
-    print(med_avg_df)
+    print(tabulate(med_avg_df, headers = 'keys', tablefmt = 'psql'))
 
 
 if __name__ == "__main__":
