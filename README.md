@@ -72,7 +72,7 @@ I         11         92         84         50         61          2
 If the csv files name are not correct or the datasets in csv are less than three row, it will return Error.
 
 
-## generate all average result by category
+## Generate all average result by category
 
 ```
 python3 gen_avg_result.py -i <total_user_count>
@@ -84,6 +84,30 @@ or
 ./gen_avg_result.py -i <total_user_count>
 ```
 
-# online resources
+The example result:
+
+```
+att_df_for_csv_list
++------------+---------+---------+---------+
+| category   |      0s |      1s |      2s |
+|------------+---------+---------+---------|
+| A          | xxx     |xxx      |xxx      |
+| B          | xxx     |xxx      |xxx      |
+| C          | xxx     |xxx      |xxx      |
+| ...        | xxx     |xxx      |xxx      |
++------------+---------+---------+---------+
+med_df_for_csv_list
++------------+---------+---------+---------+
+| category   |      0s |      1s |      2s |
+|------------+---------+---------+---------|
+| A          | xxx     |xxx      |xxx      |
+| B          | xxx     |xxx      |xxx      |
+| C          | xxx     |xxx      |xxx      |
+| ...        | xxx     |xxx      |xxx      |
++------------+---------+---------+---------
+```
+
+
+# Online resources
 
 * https://nbviewer.jupyter.org/github/pybokeh/jupyter_notebooks/blob/master/plotly/plotly_with_pandas.html
