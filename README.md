@@ -1,8 +1,10 @@
 # The analysis of experimental data results of my lab
 
-The purpose of this project is to organize the data and convert it to the format needed to facilitate analysis.
+The purpose of this repo is to organize the eeg data and convert it to the format I need.
 
-This project needs Python 3, Pandas, plotly, have to isntall these packages:
+It's require Python 3, Pandas, plotly...etc, to install these packages:
+
+
 
 ```
 pip3 install pandas
@@ -36,19 +38,20 @@ Before generate these summary result csv, make sure put all of tester data in `d
 │   ├── 1-A-3.csv
 │   ├── 2-E-1.csv
 │   ├── ...
+├── tester2
+├── ├── ...
 ```
 
-also make sure each csv file name are correct format: `[1-9]-[A-I]-[1-3]).csv`.
+* each csv file name are correct format: `[1-9]-[A-I]-[1-3]).csv`.
+* after all files in data_source prepare well, run:
 
-After all files in data_source prepare well, run:
-
-```
+```Shell
 python3 get_summary.py -i <total_user_count>
 ```
 
 or
 
-```
+```Shell
 ./get_summary.py -i <total_user_count>
 ```
 
@@ -74,13 +77,13 @@ If the csv files name are not correct or the datasets in csv are less than three
 
 ## Generate all average result by category
 
-```
+```Shell
 python3 gen_avg_result.py -i <total_user_count>
 ```
 
 or
 
-```
+```Shell
 ./gen_avg_result.py -i <total_user_count>
 ```
 
