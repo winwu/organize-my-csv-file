@@ -5,11 +5,9 @@ import sys
 import pathlib
 from tabulate import tabulate
 
-from plotly.offline import iplot
-import plotly.graph_objects as go
 import plotly.express as px
-import plotly.figure_factory as ff
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from helpers.helpers import get_total_user_val
 from helpers.log_colors import log_colors
@@ -57,8 +55,6 @@ def gen_all_avg_chart_by_category_of_each_user():
         m_1_avg = df.Meditation_1s_avg.mean()
         m_2_avg = df.Meditation_2s_avg.mean()
 
-        # table = ff.create_table(df)
-        # iplot(table, filename='jupyter-table1')
 
         att_df = pd.DataFrame(columns = ['seconds', 'attention_average'])
         att_df.loc[0] = [0, a_0_avg]
@@ -111,23 +107,36 @@ def gen_all_avg_chart_by_category_of_each_user():
 
 def gen_all_user_of_3_times_avg_csv():
     
+    path = './dist/by_alphabet/'
+    
     print('att_df_for_csv_list')
     att_avg_df = pd.concat(att_df_for_csv_list)
     att_avg_df.index.name = 'category'
-    att_avg_df.to_csv('./dist/by_alphabet/all_times_avg_attention.csv', encoding = 'utf-8', index = True)
+    att_avg_df.to_csv(path + 'all_times_avg_attention.csv', encoding = 'utf-8', index = True)
     # orient:
     # index => object's key name by category
     # columns => object's key name by 0s, 1s, 2s
-    att_avg_df.to_json(os.path.join(dirname, 'dist/by_alphabet/all_user_3_times_attention_avg.json'), orient = 'index')
+    att_avg_df.to_json(os.path.join(dirname, path + 'all_user_3_times_attention_avg.json'), orient = 'index')
     print(tabulate(att_avg_df, headers = 'keys', tablefmt = 'psql'))
     
+    # 製作 line chart
+    att_avg_df.T.plot()
+    plt.title('All user each second average attention')
+    plt.savefig(path + 'all_user_3_times_attention_avg.png')
+
+
     
     print('med_df_for_csv_list')
     med_avg_df = pd.concat(med_df_for_csv_list)
     med_avg_df.index.name = 'category'
-    med_avg_df.to_csv('./dist/by_alphabet/all_times_avg_meditation.csv', encoding = 'utf-8', index = True)
-    med_avg_df.to_json(os.path.join(dirname, 'dist/by_alphabet/all_user_3_times_meditation_avg.json'), orient = 'index')
+    med_avg_df.to_csv(path + 'all_times_avg_meditation.csv', encoding = 'utf-8', index = True)
+    med_avg_df.to_json(os.path.join(dirname, path + 'all_user_3_times_meditation_avg.json'), orient = 'index')
     print(tabulate(med_avg_df, headers = 'keys', tablefmt = 'psql'))
+    
+    # 製作 line chart
+    med_avg_df.T.plot()
+    plt.title('All user each second average meditation')
+    plt.savefig(path + 'all_user_3_times_meditation_avg.png')
 
 
 if __name__ == "__main__":

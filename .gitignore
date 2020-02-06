@@ -2,5 +2,6 @@ data_source/*
 !data_source/.gitkeep
 combine.py
 .DS_Store
-dist
+dist/*
+!dist/index.html
 __pycache__
