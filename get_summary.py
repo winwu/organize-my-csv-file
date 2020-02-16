@@ -173,8 +173,25 @@ def generate_result_by_alphabet():
             .format(log_colors.WARNING, ',\n'.join(missing_tester_list), log_colors.ENDC))
 
 
+def generate_alphabet_describe():
+    for alphabet in gconfig.english_category_range:
+        # 讀取每位使用者的資料
+        alphabet_csv = os.path.join(dirname, 'dist/by_alphabet/category_' + str(alphabet) + '.csv')
+        
+        if os.path.exists(alphabet_csv):
+            this_df = pd.read_csv(alphabet_csv).describe()
+            this_df = this_df.drop('tester', 1)
+            
+            # 描述統計
+            print(' ----------------- 形式 {} 的敘述統計 -----------------'.format(alphabet))
+            print(this_df)
+            this_df.to_csv(os.path.join(dirname, 'dist/by_alphabet_describe/' + alphabet + '.csv'), encoding = 'utf-8', index = True)
+            # print('att_0s_avg_123 平均值: {}'.format(this_df['att_0s_avg_123'].mean()))
+
+
 if __name__ == "__main__":
    total_test_user = int(get_total_user_val(sys.argv[1:]))
    create_folders()
    generate_result_by_user()
    generate_result_by_alphabet()
+   generate_alphabet_describe()
