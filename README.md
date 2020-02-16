@@ -4,8 +4,6 @@ The purpose of this repo is to organize the eeg data and convert it to the forma
 
 It's require Python 3, Pandas, plotly...etc, to install these packages:
 
-
-
 ```
 pip3 install pandas
 pip3 install plotly==4.5.0
@@ -25,7 +23,12 @@ npm install -g electron@1.8.4 orca
 pip3 install psutil requests
 ```
 
-## Execute and generate summary result
+---
+
+
+## Generate result by each user
+
+Three experiments per user, to calculate some relevant statistics.
 
 Before generate these summary result csv, make sure put all of tester data in `data_source` folder, the folder structure will looks:
 
@@ -42,8 +45,8 @@ Before generate these summary result csv, make sure put all of tester data in `d
 ├── ├── ...
 ```
 
-* each csv file name are correct format: `[1-9]-[A-I]-[1-3]).csv`.
-* after all files in data_source prepare well, run:
+* each .csv filename should follow this regex: `[1-9]-[A-I]-[1-3]).csv`. (If the csv files name are not correct or the datasets in csv are less than three row, it will return Error.)
+* after all files in data_source prepared well, run:
 
 ```Shell
 python3 get_summary.py -i <total_user_count>
@@ -55,7 +58,9 @@ or
 ./get_summary.py -i <total_user_count>
 ```
 
-The script will calculate the average of three data sets from each English alphabet group(A-I) by each tester, then create summary result csv in each ./data_source/tester{N}/summary/summary_tester{N}.csv.
+The script will calculate:
+
+1.  The average of three data sets from each English alphabet group(A-I) by each tester, then create summary result csv in each ./data_source/tester{N}/summary/summary_tester{N}.csv.
 
 The example result of summary file:
 
@@ -71,9 +76,6 @@ G         88         72         64         30         45         63
 H         23         82         74         40         62         12
 I         11         92         84         50         61          2
 ```
-
-If the csv files name are not correct or the datasets in csv are less than three row, it will return Error.
-
 
 ## Generate all average result by category
 
