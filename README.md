@@ -77,16 +77,16 @@ H         23         82         74         40         62         12
 I         11         92         84         50         61          2
 ```
 
-## Generate all average result by category
+## Generate avg chart category
 
 ```Shell
-python3 gen_avg_result.py -i <total_user_count>
+python3 gen_chart.py -i <total_user_count>
 ```
 
 or
 
 ```Shell
-./gen_avg_result.py -i <total_user_count>
+./gen_chart.py -i <total_user_count>
 ```
 
 The example result:

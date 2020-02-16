@@ -25,14 +25,14 @@ def initial():
     if not os.path.exists(os.path.join(dirname, 'dist/images')):
         pathlib.Path(os.path.join(dirname, 'dist/images')).mkdir(parents = True, exist_ok = True)
 
-    if not os.path.exists(os.path.join(dirname, 'dist/images/all_times_avg')):
-        pathlib.Path(os.path.join(dirname, 'dist/images/all_times_avg')).mkdir(parents = True, exist_ok = True)
+    if not os.path.exists(os.path.join(dirname, 'dist/images/avg_123')):
+        pathlib.Path(os.path.join(dirname, 'dist/images/avg_123')).mkdir(parents = True, exist_ok = True)
     
-    if not os.path.exists(os.path.join(dirname, 'dist/images/all_times_avg/attention')):
-        pathlib.Path(os.path.join(dirname, 'dist/images/all_times_avg/attention')).mkdir(parents = True, exist_ok = True)
+    if not os.path.exists(os.path.join(dirname, 'dist/images/avg_123/attention')):
+        pathlib.Path(os.path.join(dirname, 'dist/images/avg_123/attention')).mkdir(parents = True, exist_ok = True)
     
-    if not os.path.exists(os.path.join(dirname, 'dist/images/all_times_avg/meditation')):
-        pathlib.Path(os.path.join(dirname, 'dist/images/all_times_avg/meditation')).mkdir(parents = True, exist_ok = True)
+    if not os.path.exists(os.path.join(dirname, 'dist/images/avg_123/meditation')):
+        pathlib.Path(os.path.join(dirname, 'dist/images/avg_123/meditation')).mkdir(parents = True, exist_ok = True)
 
 def gen_all_avg_chart_by_category_of_each_user():
     for alphabet in gconfig.english_category_range:
@@ -45,33 +45,30 @@ def gen_all_avg_chart_by_category_of_each_user():
 
         df = pd.read_csv(the_csv)
         
-        # print(df)
-
-        a_0_avg = df.Attention_0s_avg.mean()
-        a_1_avg = df.Attention_1s_avg.mean()
-        a_2_avg = df.Attention_2s_avg.mean()
-
-        m_0_avg = df.Meditation_0s_avg.mean()
-        m_1_avg = df.Meditation_1s_avg.mean()
-        m_2_avg = df.Meditation_2s_avg.mean()
-
+        # 所有類別的第一次到第三次實驗平均
+        a_0_avg_123 = df.att_0s_avg_123.mean()
+        a_1_avg_123 = df.att_1s_avg_123.mean()
+        a_2_avg_123 = df.att_2s_avg_123.mean()
+        m_0_avg_123 = df.med_0s_avg_123.mean()
+        m_1_avg_123 = df.med_1s_avg_123.mean()
+        m_2_avg_123 = df.med_2s_avg_123.mean()
 
         att_df = pd.DataFrame(columns = ['seconds', 'attention_average'])
-        att_df.loc[0] = [0, a_0_avg]
-        att_df.loc[1] = [1, a_1_avg]
-        att_df.loc[2] = [2, a_2_avg]
+        att_df.loc[0] = [0, a_0_avg_123]
+        att_df.loc[1] = [1, a_1_avg_123]
+        att_df.loc[2] = [2, a_2_avg_123]
 
         att_df_for_csv = pd.DataFrame(columns = ['0s', '1s', '2s'])
-        att_df_for_csv.loc[alphabet] = [a_0_avg, a_1_avg, a_2_avg]
+        att_df_for_csv.loc[alphabet] = [a_0_avg_123, a_1_avg_123, a_2_avg_123]
         att_df_for_csv_list.append(att_df_for_csv)
 
         med_df = pd.DataFrame(columns = ['seconds', 'meditation_average'])
-        med_df.loc[0] = [0, m_0_avg]
-        med_df.loc[1] = [1, m_1_avg]
-        med_df.loc[2] = [2, m_2_avg]
+        med_df.loc[0] = [0, m_0_avg_123]
+        med_df.loc[1] = [1, m_1_avg_123]
+        med_df.loc[2] = [2, m_2_avg_123]
 
         med_df_for_csv = pd.DataFrame(columns = ['0s', '1s', '2s'])
-        med_df_for_csv.loc[alphabet] = [m_0_avg, m_1_avg, m_2_avg]
+        med_df_for_csv.loc[alphabet] = [m_0_avg_123, m_1_avg_123, m_2_avg_123]
         med_df_for_csv_list.append(med_df_for_csv)
         
         # attention
@@ -86,7 +83,7 @@ def gen_all_avg_chart_by_category_of_each_user():
                 dtick = 1
             )
         )
-        fig.write_image('./dist/images/all_times_avg/attention/all_user_3_times_avg_category_' + alphabet + '.png', width = 700, scale = 2)
+        fig.write_image('./dist/images/avg_123/attention/category_' + alphabet + '_123.png', width = 700, scale = 2)
 
 
         # meditation
@@ -101,42 +98,42 @@ def gen_all_avg_chart_by_category_of_each_user():
                 dtick = 1
             )
         )
-        fig2.write_image('./dist/images/all_times_avg/meditation/all_user_3_times_avg_category_' + alphabet + '.png', width = 700, scale = 2)
+        fig2.write_image('./dist/images/avg_123/meditation/category_' + alphabet + '_123.png', width = 700, scale = 2)
             
         #fig.show()
 
 def gen_all_user_of_3_times_avg_csv():
     
-    path = './dist/by_alphabet/'
+    path = './dist/images/avg_123'
     
     print('att_df_for_csv_list')
     att_avg_df = pd.concat(att_df_for_csv_list)
     att_avg_df.index.name = 'category'
-    att_avg_df.to_csv(path + 'all_times_avg_attention.csv', encoding = 'utf-8', index = True)
+    att_avg_df.to_csv(path + 'attention_avg_123.csv', encoding = 'utf-8', index = True)
+    
     # orient:
     # index => object's key name by category
     # columns => object's key name by 0s, 1s, 2s
-    att_avg_df.to_json(os.path.join(dirname, path + 'all_user_3_times_attention_avg.json'), orient = 'index')
+    att_avg_df.to_json(os.path.join(dirname, path + 'attention_avg_123.json'), orient = 'index')
     print(tabulate(att_avg_df, headers = 'keys', tablefmt = 'psql'))
     
     # 製作 line chart
     att_avg_df.T.plot()
     plt.title('All user each second average attention')
-    plt.savefig(path + 'all_user_3_times_attention_avg.png')
-
+    plt.savefig(path + 'attention_avg_123.png')
 
     
     print('med_df_for_csv_list')
     med_avg_df = pd.concat(med_df_for_csv_list)
     med_avg_df.index.name = 'category'
-    med_avg_df.to_csv(path + 'all_times_avg_meditation.csv', encoding = 'utf-8', index = True)
-    med_avg_df.to_json(os.path.join(dirname, path + 'all_user_3_times_meditation_avg.json'), orient = 'index')
+    med_avg_df.to_csv(path + 'meditation_avg_123.csv', encoding = 'utf-8', index = True)
+    med_avg_df.to_json(os.path.join(dirname, path + 'meditation_avg_123.json'), orient = 'index')
     print(tabulate(med_avg_df, headers = 'keys', tablefmt = 'psql'))
     
     # 製作 line chart
     med_avg_df.T.plot()
     plt.title('All user each second average meditation')
-    plt.savefig(path + 'all_user_3_times_meditation_avg.png')
+    plt.savefig(path + 'meditation_avg_123.png')
 
 
 if __name__ == "__main__":
