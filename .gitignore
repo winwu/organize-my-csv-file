@@ -5,3 +5,4 @@ combine.py
 dist/*
 !dist/index.html
 __pycache__
+notebooks
