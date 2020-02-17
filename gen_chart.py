@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 from helpers.helpers import get_total_user_val
 from helpers.log_colors import log_colors
 from helpers.gconfig import gconfig
+from helpers.initial import create_image_folders
 
 dirname = os.path.dirname(__file__)
 
@@ -20,19 +21,6 @@ dirname = os.path.dirname(__file__)
 
 att_df_for_csv_list = list()
 med_df_for_csv_list = list()
-
-def initial():
-    if not os.path.exists(os.path.join(dirname, 'dist/images')):
-        pathlib.Path(os.path.join(dirname, 'dist/images')).mkdir(parents = True, exist_ok = True)
-
-    if not os.path.exists(os.path.join(dirname, 'dist/images/avg_123')):
-        pathlib.Path(os.path.join(dirname, 'dist/images/avg_123')).mkdir(parents = True, exist_ok = True)
-    
-    if not os.path.exists(os.path.join(dirname, 'dist/images/avg_123/attention')):
-        pathlib.Path(os.path.join(dirname, 'dist/images/avg_123/attention')).mkdir(parents = True, exist_ok = True)
-    
-    if not os.path.exists(os.path.join(dirname, 'dist/images/avg_123/meditation')):
-        pathlib.Path(os.path.join(dirname, 'dist/images/avg_123/meditation')).mkdir(parents = True, exist_ok = True)
 
 def gen_all_avg_chart_by_category_of_each_user():
     for alphabet in gconfig.english_category_range:
@@ -114,7 +102,7 @@ def gen_all_user_of_3_times_avg_csv():
     # orient:
     # index => object's key name by category
     # columns => object's key name by 0s, 1s, 2s
-    att_avg_df.to_json(os.path.join(dirname, path + 'attention_avg_123.json'), orient = 'index')
+    # att_avg_df.to_json(os.path.join(dirname, path + 'attention_avg_123.json'), orient = 'index')
     print(tabulate(att_avg_df, headers = 'keys', tablefmt = 'psql'))
     
     # 製作 line chart
@@ -127,7 +115,7 @@ def gen_all_user_of_3_times_avg_csv():
     med_avg_df = pd.concat(med_df_for_csv_list)
     med_avg_df.index.name = 'category'
     med_avg_df.to_csv(path + 'meditation_avg_123.csv', encoding = 'utf-8', index = True)
-    med_avg_df.to_json(os.path.join(dirname, path + 'meditation_avg_123.json'), orient = 'index')
+    # med_avg_df.to_json(os.path.join(dirname, path + 'meditation_avg_123.json'), orient = 'index')
     print(tabulate(med_avg_df, headers = 'keys', tablefmt = 'psql'))
     
     # 製作 line chart
@@ -138,7 +126,7 @@ def gen_all_user_of_3_times_avg_csv():
 
 if __name__ == "__main__":
     # total_test_user = int(get_total_user_val(sys.argv[1:]))
-    initial()
+    create_image_folders()
     
     # 產生每個類別所有使用者三次三秒平均數值
     gen_all_avg_chart_by_category_of_each_user()
