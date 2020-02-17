@@ -1,15 +1,19 @@
 import os
-import pathlib
+from pathlib import Path
 
-dirname = os.path.dirname(__file__)
+basepath = Path(__file__).parent.parent
 
 def create_folders():
     # create folder if not exists
-    if not os.path.exists(os.path.join(dirname, 'dist/by_tester')):
-        pathlib.Path(os.path.join(dirname, 'dist/by_tester')).mkdir(parents = True, exist_ok = True) 
-    
-    if not os.path.exists(os.path.join(dirname, 'dist/by_alphabet')):
-        pathlib.Path(os.path.join(dirname, 'dist/by_alphabet')).mkdir(parents = True, exist_ok = True) 
-    
-    if not os.path.exists(os.path.join(dirname, 'dist/by_alphabet_describe')):
-        pathlib.Path(os.path.join(dirname, 'dist/by_alphabet_describe')).mkdir(parents = True, exist_ok = True) 
+    try:
+        original_umask = os.umask(0)
+        if not os.path.exists(os.path.join(basepath, 'dist', 'by_tester')):
+            os.makedirs(os.path.join(basepath, 'dist', 'by_tester'), mode = 0o777, exist_ok = True)
+        
+        if not os.path.exists(os.path.join(basepath, 'dist', 'by_alphabet')):
+            os.makedirs(os.path.join(basepath, 'dist', 'by_alphabet'), mode = 0o777, exist_ok = True)
+        
+        if not os.path.exists(os.path.join(basepath, 'dist', 'by_alphabet_describe')):
+            os.makedirs(os.path.join(basepath, 'dist', 'by_alphabet_describe'), mode = 0o777, exist_ok = True)
+    finally:
+        os.umask(original_umask)
