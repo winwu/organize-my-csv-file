@@ -116,3 +116,27 @@ med_df_for_csv_list
 # Online resources
 
 * https://nbviewer.jupyter.org/github/pybokeh/jupyter_notebooks/blob/master/plotly/plotly_with_pandas.html
+
+
+---
+
+# Use jupyter notebook
+
+Install: 
+
+```
+pip3 install jupyter
+```
+
+Run: 
+
+```
+python3 -m notebook
+```
+
+or 
+
+```
+jupyter notebook --ip xx.xx.xx.xx --port 8888
+```
+
