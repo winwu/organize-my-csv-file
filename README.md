@@ -106,12 +106,16 @@ med_df_for_csv_list
 +------------+---------+---------+---------
 ```
 
+Generate chart base on these files: 
 
-# Online resources
+- attention_avg_123
+- attention_avg_23
+- meditation_avg_123
+- meditation_avg_23
 
-* https://nbviewer.jupyter.org/github/pybokeh/jupyter_notebooks/blob/master/plotly/plotly_with_pandas.html
-
-
+```
+./gen_avg_by_all_type_chart.py
+```
 ---
 
 # Use jupyter notebook
@@ -133,4 +137,8 @@ or
 ```
 jupyter notebook --ip xx.xx.xx.xx --port 8888
 ```
+
+# Online resources
+
+* https://nbviewer.jupyter.org/github/pybokeh/jupyter_notebooks/blob/master/plotly/plotly_with_pandas.html
 
