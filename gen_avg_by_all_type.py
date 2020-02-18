@@ -28,7 +28,7 @@ def gen_avg_by_all():
 
     for alphabet in gconfig.english_type_range:
 
-        the_csv = './dist/by_alphabet/category_' + alphabet + '.csv'
+        the_csv = './dist/by_alphabet/type_' + alphabet + '.csv'
         
         if not os.path.exists(the_csv):
             print('{}[Warning] {} not exists{}'.format(log_colors.WARNING, the_csv, log_colors.ENDC))

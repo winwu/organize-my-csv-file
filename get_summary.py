@@ -47,7 +47,7 @@ def generate_result_by_user():
         else: 
             # 2. 為每個 user 建立 user_sum_df 以利計算結果放到這張表
             user_sum_df = pd.DataFrame(index = list(gconfig.english_type_range), columns = col_names)
-            user_sum_df.index.name = 'category'
+            user_sum_df.index.name = 'type'
             
             # set all cell value to -999 as default
             user_sum_df.fillna(-999, inplace = True)
@@ -56,26 +56,26 @@ def generate_result_by_user():
             # 3. categories file names according to English alphabet (A~I)
             for alphabet in gconfig.english_type_range:
                 
-                each_eng_category_list = []
+                each_eng_type_list = []
                 
                 for csv_fname in os.listdir(user_path):
                     if is_validate_csv_filename(alphabet, csv_fname):
-                        each_eng_category_list.append(csv_fname)
+                        each_eng_type_list.append(csv_fname)
                     
                 # update file sequance from 1 -> 2 -> 3
-                each_eng_category_list = sorted(each_eng_category_list)
+                each_eng_type_list = sorted(each_eng_type_list)
 
-                print('-Category: {}\'s List: {}-'.format(alphabet, each_eng_category_list))
+                print('-Type: {}\'s List: {}-'.format(alphabet, each_eng_type_list))
 
                 # all groups must have three files to be continue...
-                is_all_csv_ready = len(each_eng_category_list) == 3
+                is_all_csv_ready = len(each_eng_type_list) == 3
 
                 if is_all_csv_ready:
-                    print(' Start generating csv for this category {}...'.format(alphabet))
+                    print(' Start generating csv for this type {}...'.format(alphabet))
                     
                     tmpPdList = list()
                     # concat csv into one
-                    for csv in each_eng_category_list:
+                    for csv in each_eng_type_list:
                         csvPath = './data_source/tester' + str(user_id) + '/' + csv
                         # print('CSV path: {}'.format(csvPath))
                         tmpDf = pd.read_csv(csvPath, nrows = 3, usecols = ['Attention', 'Meditation'])
@@ -141,7 +141,7 @@ def generate_result_by_alphabet():
                 user_summary_df = pd.read_csv(tester_sum_csv_path)
                 # 依照英文字母去讀去每 row
                 
-                row_data = user_summary_df.query('category == \'' + alphabet + '\'')
+                row_data = user_summary_df.query('type == \'' + alphabet + '\'')
                 
                 if ((row_data.att_0s_avg_123 != -999).bool() 
                     and (row_data.att_1s_avg_123 != -999).bool()
@@ -163,10 +163,10 @@ def generate_result_by_alphabet():
         for rowname in col_names:
             alphabet_df.drop(alphabet_df.loc[alphabet_df[rowname] == -2].index, inplace = True)
         
-        print('category_' +  alphabet + '.csv')
+        print('type_' +  alphabet + '.csv')
         print(tabulate(alphabet_df, headers = 'keys', tablefmt = 'psql'))
         
-        alphabet_df.to_csv(os.path.join(dirname, 'dist/by_alphabet/category_' + alphabet + '.csv'), encoding = 'utf-8', index = True)
+        alphabet_df.to_csv(os.path.join(dirname, 'dist/by_alphabet/type_' + alphabet + '.csv'), encoding = 'utf-8', index = True)
         
     if len(missing_tester_list) > 0:
         print('{}[Warning]\n {} Skiped due to data_source not exists or format not correct.{}'
@@ -176,7 +176,7 @@ def generate_result_by_alphabet():
 def generate_alphabet_describe():
     for alphabet in gconfig.english_type_range:
         # 讀取每位使用者的資料
-        alphabet_csv = os.path.join(dirname, 'dist/by_alphabet/category_' + str(alphabet) + '.csv')
+        alphabet_csv = os.path.join(dirname, 'dist/by_alphabet/type_' + str(alphabet) + '.csv')
         
         if os.path.exists(alphabet_csv):
             this_df = pd.read_csv(alphabet_csv).describe()
