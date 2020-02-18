@@ -14,19 +14,19 @@ def gen_avg_by_all():
     # 總共有四張新表
     columns = ['0s', '1s', '2s']
     
-    att_df_123 = pd.DataFrame(index = list(gconfig.english_category_range), columns = columns)
+    att_df_123 = pd.DataFrame(index = list(gconfig.english_type_range), columns = columns)
     att_df_123.index.name = 'type'
     
-    att_df_23 = pd.DataFrame(index = list(gconfig.english_category_range), columns = columns)
+    att_df_23 = pd.DataFrame(index = list(gconfig.english_type_range), columns = columns)
     att_df_23.index.name = 'type'
 
-    med_df_123 = pd.DataFrame(index = list(gconfig.english_category_range), columns = columns)
+    med_df_123 = pd.DataFrame(index = list(gconfig.english_type_range), columns = columns)
     med_df_123.index.name = 'type'
     
-    med_df_23 = pd.DataFrame(index = list(gconfig.english_category_range), columns = columns)
+    med_df_23 = pd.DataFrame(index = list(gconfig.english_type_range), columns = columns)
     med_df_23.index.name = 'type'
 
-    for alphabet in gconfig.english_category_range:
+    for alphabet in gconfig.english_type_range:
 
         the_csv = './dist/by_alphabet/category_' + alphabet + '.csv'
         

@@ -46,7 +46,7 @@ def generate_result_by_user():
             print('{}[Warning]\n Tester: {}\'s data source not exists.{}'.format(log_colors.WARNING, user_id, log_colors.ENDC))
         else: 
             # 2. 為每個 user 建立 user_sum_df 以利計算結果放到這張表
-            user_sum_df = pd.DataFrame(index = list(gconfig.english_category_range), columns = col_names)
+            user_sum_df = pd.DataFrame(index = list(gconfig.english_type_range), columns = col_names)
             user_sum_df.index.name = 'category'
             
             # set all cell value to -999 as default
@@ -54,7 +54,7 @@ def generate_result_by_user():
             print('{}[Processing] folder: {}{}'.format(log_colors.BLUE, user_id, log_colors.ENDC))
         
             # 3. categories file names according to English alphabet (A~I)
-            for alphabet in gconfig.english_category_range:
+            for alphabet in gconfig.english_type_range:
                 
                 each_eng_category_list = []
                 
@@ -126,7 +126,7 @@ def generate_result_by_alphabet():
     print('------ 依照英文字母整理資料 ------')
     missing_tester_list = list()
     
-    for alphabet in gconfig.english_category_range:
+    for alphabet in gconfig.english_type_range:
         alphabet_df = pd.DataFrame(index = list(range(1, total_test_user + 1)), columns = col_names)
         alphabet_df.index.name = 'tester'
         alphabet_df.fillna(-2, inplace = True)
@@ -174,7 +174,7 @@ def generate_result_by_alphabet():
 
 
 def generate_alphabet_describe():
-    for alphabet in gconfig.english_category_range:
+    for alphabet in gconfig.english_type_range:
         # 讀取每位使用者的資料
         alphabet_csv = os.path.join(dirname, 'dist/by_alphabet/category_' + str(alphabet) + '.csv')
         
