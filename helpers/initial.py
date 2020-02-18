@@ -18,6 +18,9 @@ def create_folders():
         
         if not os.path.exists(os.path.join(basepath, 'dist', 'boxplot')):
             os.makedirs(os.path.join(basepath, 'dist', 'boxplot'), mode = 0o777, exist_ok = True)
+        
+        if not os.path.exists(os.path.join(basepath, 'dist', 'line_chart')):
+            os.makedirs(os.path.join(basepath, 'dist', 'line_chart'), mode = 0o777, exist_ok = True)
     
     finally:
         os.umask(original_umask)
