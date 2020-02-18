@@ -33,12 +33,12 @@ def gen_bloxplot_and_linechart():
 
             # boxplot
             boxchart_att = df[['Att 0s', 'Att 1s', 'Att 2s']].plot.box(ylim = (10, 100), color = boxplot_color, sym = 'r+', grid = True)
-            plt.title('category ' + alphabet + ': Attention Average boxplot')
+            plt.title('Type ' + alphabet + ': Attention Average boxplot')
             plt.savefig('./dist/boxplot/type_' + alphabet + '_attention.png', format="png", dpi = 200)
             plt.close()
 
             boxchart_med = df[['Med 0s', 'Med 1s', 'Med 2s']].plot.box(ylim = (10, 100), color = boxplot_color, sym = 'r+', grid = True)
-            plt.title('category ' + alphabet + ': Meditation Average boxplot')
+            plt.title('Type ' + alphabet + ': Meditation Average boxplot')
             plt.savefig('./dist/boxplot/type_' + alphabet + '_meditation.png', format="png", dpi = 200)
             plt.close()
 
@@ -57,7 +57,7 @@ def gen_bloxplot_and_linechart():
 
             att_df_line.plot.line(subplots=True, color=['red'], ylim = (10, 100), grid = True)
             med_df_line.plot(color=['green'])
-            plt.title('category ' + alphabet + ': Attention and Meditation Average')
+            plt.title('Type ' + alphabet + ': Attention and Meditation Average')
             plt.savefig('./dist/line_chart/type_' + alphabet + '.png', format="png", dpi = 200)
             plt.close()
 
