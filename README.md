@@ -6,10 +6,7 @@ It's require Python 3, Pandas, plotly...etc, to install these packages:
 
 ```
 pip3 install pandas
-pip3 install plotly==4.5.0
 pip3 install tabulate
-npm install -g electron@1.8.4 orca
-pip3 install psutil requests
 ```
 
 for Mac user:
@@ -17,10 +14,7 @@ for Mac user:
 ```
 python3 -m pip uninstall pip
 pip3 install pandas --user
-pip3 install plotly==4.5.0 --user
 pip3 install tabulate --user
-npm install -g electron@1.8.4 orca
-pip3 install psutil requests
 ```
 
 ---
@@ -77,16 +71,16 @@ H         23         82         74         40         62         12
 I         11         92         84         50         61          2
 ```
 
-## Generate avg chart category
+## Generate avg by all Types
 
 ```Shell
-python3 gen_chart.py -i <total_user_count>
+python3 gen_avg_by_all_type.py
 ```
 
 or
 
 ```Shell
-./gen_chart.py -i <total_user_count>
+./gen_avg_by_all_type.py
 ```
 
 The example result:
