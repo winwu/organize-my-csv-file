@@ -26,7 +26,7 @@ def gen_chart():
             print('----------- {} -------------\n'.format(str(csv_path)))
             print(tabulate(df, headers = 'keys', tablefmt = 'psql'))
             
-            df.T.plot(figsize=(10,5))
+            df.T.plot(figsize=(10,5), ylim=(50, 75))
             plt.title(csv_name)
             plt.savefig('./dist/' + csv_name + '.png', format="png",  dpi = 200)
 

@@ -72,7 +72,7 @@ def gen_avg_by_all():
     att_df_123.to_csv(path + 'attention_avg_123.csv', encoding = 'utf-8', index = True)
     att_df_23.to_csv(path + 'attention_avg_23.csv', encoding = 'utf-8', index = True)
     med_df_123.to_csv(path + 'meditation_avg_123.csv', encoding = 'utf-8', index = True)
-    att_df_23.to_csv(path + 'meditation_avg_23.csv', encoding = 'utf-8', index = True)
+    med_df_23.to_csv(path + 'meditation_avg_23.csv', encoding = 'utf-8', index = True)
 
 if __name__ == "__main__":
     # create_image_folders()
