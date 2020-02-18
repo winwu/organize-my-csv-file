@@ -114,7 +114,7 @@ Generate chart base on these files:
 - meditation_avg_23
 
 ```
-./gen_avg_by_all_type_chart.py
+./draw_all_type.py
 ```
 ---
 
