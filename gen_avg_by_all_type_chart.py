@@ -28,7 +28,7 @@ def gen_chart():
             
             df.T.plot(figsize=(10,5))
             plt.title(csv_name)
-            plt.savefig('./dist/' + csv_name )
+            plt.savefig('./dist/' + csv_name + '.png', format="png",  dpi = 200)
 
 
 if __name__ == "__main__":
